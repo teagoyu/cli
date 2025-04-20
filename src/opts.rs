@@ -1,5 +1,5 @@
-use std::path::Path;
 use clap::Parser;
+use std::path::Path;
 
 #[derive(Debug, Parser)]
 #[command(name = "rcli",version,author,about,long_about = None)]

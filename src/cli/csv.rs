@@ -1,7 +1,7 @@
+use super::verify_input_file;
 use clap::Parser;
 use std::fmt;
 use std::fmt::{Display, Formatter};
-use std::path::Path;
 use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy)]
@@ -23,13 +23,6 @@ pub struct CsvOpts {
     pub header: bool,
 }
 
-pub fn verify_input_file(file_name: &str) -> Result<String, &'static str> {
-    if Path::new(file_name).exists() {
-        Ok(file_name.into())
-    } else {
-        Err("file not found")
-    }
-}
 pub fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {
     format
         .parse::<OutputFormat>()

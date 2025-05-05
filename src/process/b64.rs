@@ -4,18 +4,22 @@ use base64::{
     Engine as _,
 };
 use std::fs::File;
+use std::io::BufRead;
+use std::io::BufReader;
 use std::io::Read;
 
 // Read input from stdin or file
 fn read_input(input: String) -> anyhow::Result<Vec<u8>> {
-    let mut reader: Box<dyn Read> = if input == "-" {
-        Box::new(std::io::stdin())
+    if input == "-" {
+        let mut line = String::new();
+        BufReader::new(std::io::stdin()).read_line(&mut line)?;
+        Ok(line.into_bytes())
     } else {
-        Box::new(File::open(input)?)
-    };
-    let mut buf = Vec::new();
-    reader.read_to_end(&mut buf)?;
-    Ok(buf)
+        let mut reader = Box::new(File::open(input)?);
+        let mut buf = Vec::new();
+        reader.read_to_end(&mut buf)?;
+        Ok(buf)
+    }
 }
 
 // Process encoded input
